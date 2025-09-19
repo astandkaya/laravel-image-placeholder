@@ -6,7 +6,9 @@ use Intervention\Image\ImageManager;
 
 class ImageGenerator
 {
-    public function __construct(private ImageManager $manager) {}
+    public function __construct(private ImageManager $manager)
+    {
+    }
 
     public function generate(array $opt): string
     {
@@ -51,11 +53,11 @@ class ImageGenerator
         // ガイドライン
         $w = $image->width();
         $h = $image->height();
-        $image->line(0, (int)($h/2), $w, (int)($h/2), function ($line) use ($color) {
+        $image->line(0, (int)($h / 2), $w, (int)($h / 2), function ($line) use ($color) {
             $line->color($color);
             $line->width(1);
         });
-        $image->line((int)($w/2), 0, (int)($w/2), $h, function ($line) use ($color) {
+        $image->line((int)($w / 2), 0, (int)($w / 2), $h, function ($line) use ($color) {
             $line->color($color);
             $line->width(1);
         });
@@ -65,7 +67,7 @@ class ImageGenerator
     private function toRgbaString(string $hex): string
     {
         $h = ltrim($hex, '#');
-        $r=$g=$b=$a=255;
+        $r = $g = $b = $a = 255;
 
         if (strlen($h) === 3) {
             $r = hexdec(str_repeat($h[0], 2));

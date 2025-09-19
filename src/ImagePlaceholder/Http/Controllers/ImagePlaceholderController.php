@@ -11,7 +11,9 @@ use ImagePlaceholder\Events\ImagePlaceholderGenerated;
 
 class ImagePlaceholderController extends Controller
 {
-    public function __construct(private ImageManager $manager) {}
+    public function __construct(private ImageManager $manager)
+    {
+    }
 
     public function __invoke(Request $req, string $size, ?string $bg = null, ?string $fg = null, ?string $format = null)
     {
@@ -24,13 +26,15 @@ class ImagePlaceholderController extends Controller
             $seed = $req->query('seed');
         }
 
-        $w = max((int)config('image-placeholder.min_width'),  min((int)config('image-placeholder.max_width'),  $w));
+        $w = max((int)config('image-placeholder.min_width'), min((int)config('image-placeholder.max_width'), $w));
         $h = max((int)config('image-placeholder.min_height'), min((int)config('image-placeholder.max_height'), $h));
 
         $bg = $req->query('bg', $bg ?? config('image-placeholder.default.bg'));
         $fg = $req->query('fg', $fg ?? config('image-placeholder.default.fg'));
         $format = strtolower($req->query('format', $format ?? config('image-placeholder.default.format')));
-        if ($format === 'jpeg') $format = 'jpg';
+        if ($format === 'jpeg') {
+            $format = 'jpg';
+        }
 
         $allowed = config('image-placeholder.allowed_formats', []);
         if (!in_array($format, $allowed, true)) {
@@ -40,7 +44,7 @@ class ImagePlaceholderController extends Controller
         $textTpl = $req->query('text', config('image-placeholder.default.text'));
         $text = $textTpl ? strtr($textTpl, ['{w}' => (string)$w, '{h}' => (string)$h, '{size}' => "{$w}x{$h}"]) : null;
 
-        $cacheKey = sha1(json_encode(compact('w','h','bg','fg','text','format','seed','isRandom'), JSON_UNESCAPED_UNICODE));
+        $cacheKey = sha1(json_encode(compact('w', 'h', 'bg', 'fg', 'text', 'format', 'seed', 'isRandom'), JSON_UNESCAPED_UNICODE));
 
         if (config('image-placeholder.cache.etag')) {
             $ifNoneMatch = $req->headers->get('If-None-Match');
@@ -109,7 +113,9 @@ class ImagePlaceholderController extends Controller
         $w = mt_rand($minW, $maxW);
         $h = $cfg['square'] ? $w : mt_rand($minH, $maxH);
 
-        if ($seed !== null) mt_srand();
+        if ($seed !== null) {
+            mt_srand();
+        }
 
         return [$w, $h, $seed];
     }
@@ -136,8 +142,10 @@ class ImagePlaceholderController extends Controller
         }
 
         if (config('image-placeholder.debug.headers')) {
-            $h['X-Placeholder-Size'] = $meta['width'].'x'.$meta['height'];
-            if (!empty($meta['seed'])) $h['X-Placeholder-Seed'] = (string)$meta['seed'];
+            $h['X-Placeholder-Size'] = $meta['width'] . 'x' . $meta['height'];
+            if (!empty($meta['seed'])) {
+                $h['X-Placeholder-Seed'] = (string)$meta['seed'];
+            }
             $h['X-Placeholder-CacheKey'] = $meta['cache_key'];
         }
 
@@ -154,7 +162,9 @@ class ImagePlaceholderController extends Controller
                 default => 'application/octet-stream',
             }
         ];
-        if (config('image-placeholder.cache.etag')) $headers['ETag'] = "\"{$etag}\"";
+        if (config('image-placeholder.cache.etag')) {
+            $headers['ETag'] = "\"{$etag}\"";
+        }
         if ($isRandom && !config('image-placeholder.random.cacheable')) {
             $headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0';
         } else {

@@ -18,7 +18,10 @@ class ClearImagePlaceholderCache extends Command
         }
         $count = 0;
         foreach (glob($dir . '/*') ?: [] as $f) {
-            if (is_file($f)) { @unlink($f); $count++; }
+            if (is_file($f)) {
+                @unlink($f);
+                $count++;
+            }
         }
         $this->info("Cleared {$count} files from {$dir}");
         return self::SUCCESS;
