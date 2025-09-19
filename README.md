@@ -1,8 +1,17 @@
-# composer-lib-starter
+# laravel-image-placeholder
 
-Composerライブラリを作るときのテンプレート
+A debug library for temporarily generating images.
 
-リポジトリを作ったら下記を実行
+## Installation
+
 ```
-composer update --dev
+composer require astandkaya/laravel-image-placeholder
 ```
+
+## Quick Start
+
+...
+
+## Usage
+
+...
