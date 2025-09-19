@@ -4,5 +4,7 @@ namespace ImagePlaceholder\Events;
 
 class ImagePlaceholderGenerated
 {
-    public function __construct(public array $meta) {}
+    public function __construct(public array $meta)
+    {
+    }
 }
