@@ -1,0 +1,16 @@
+name: PHP_CodeSniffer
+
+on:
+  push:
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+    - name: cs
+      run: |
+        composer install --dev
+        composer cs
+        

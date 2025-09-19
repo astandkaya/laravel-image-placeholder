@@ -1,0 +1,56 @@
+{
+    "name": "astandkaya/t_pkg",
+    "description": "t_desc",
+    "type": "library",
+    "keywords": [],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "t_ns\\": "src/t_ns"
+        },
+        "files": [
+            "src/t_ns/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ast."
+        }
+    ],
+    "require": {
+        "php": ">=8.0"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^7.3",
+        "phpstan/phpstan": "^2.1",
+        "squizlabs/php_codesniffer": "^4.0",
+        "psy/psysh": "^0.12",
+        "pestphp/pest": "^4.1"
+    },
+    "scripts": {
+        "starter-setup": "php setup.php",
+        "post-update-cmd": [
+            "@starter-setup"
+        ],
+        "test": "pest",
+        "stan": "phpstan analyse",
+        "cs": "phpcs ./",
+        "cbf": "phpcbf ./",
+        "c": [
+            "@test",
+            "@stan",
+            "@cs"
+        ],
+        "psysh": "psysh"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
